@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AgroGuide</title>
+    <link rel="stylesheet" href="styles.css">
+    
+
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome to AgroGuide</h1>
+        <form id="index-form" onsubmit="login(); return false;">
+            <label for="email">Email:</label>
+            <input type="email" id="email" placeholder="Email"><br>
+            <label for="password">Password:</label>
+            <input type="password" id="password" placeholder="Password"><br>
+            <button type="submit">Login</button>
+            <p id="error-message"></p>
+        </form>
+        <div id="register-link">
+            <p>Don't have an account? <a href="register.html">Register here</a></p>
+        </div>
+    </div>
+
+        <script>
+            function predictCrop() {
+                var ph = document.getElementById('ph').value;
+                var sodium = document.getElementById('sodium').value;
+                var potassium = document.getElementById('potassium').value;
+
+                fetch('/predict', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ph: ph, sodium: sodium, potassium: potassium})
+                })
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('result').innerText = "Suggested Crop: " + data.suggested_crop;
+                })
+                .catch(error => console.error('Error:', error));
+            }
+
+            function login() {
+                var email = document.getElementById('email').value;
+                var password = document.getElementById('password').value;
+
+                // Implement login functionality here
+                // Example: You can use Firebase Authentication to handle user authentication
+            }
+        </script>
+    </div>
+
+    <!-- Firebase JavaScript SDK -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script src="firebase-config.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
